@@ -1,8 +1,9 @@
 # Arduino Radar
 
-This project builds an Arduino with a servo and ultrasonic sensor that performs a regular sweeping motion and sends the distance measurements to a web UI to draw a radar screen.
+This project builds an Arduino with a servo and ultrasonic sensor that performs a regular sweeping motion and sends the distance measurements to a web UI to draw a radar screen. 
 
-![Robot with radar screen](radar.png)
+[![Arduino with radar screen](radar.png)](https://youtu.be/6x1YQxa2cOI)
+
 
 It comprises of three parts:
 
