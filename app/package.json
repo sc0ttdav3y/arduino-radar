@@ -4,7 +4,7 @@
   "main": "index.mjs",
   "devDependencies": {},
   "scripts": {
-    "rawdata": "node --experimental-modules rawdata.mjs",
+    "rawdata": "node --experimental-modules data/rawdata.mjs",
     "start": "node --experimental-modules app.mjs"
   },
   "author": "Scott Davey",

@@ -1,3 +1,11 @@
+/**
+ * Radar
+ * 
+ * Animates a radar screen to an HTML5 canvas element.
+ * 
+ * To begin the animation, call animate(). To supply data, call update() with the data
+ * as you receive it. Whenever you supply data, it will be plotted onto the radar screen.
+ */
 class Radar {
     /**
      * Set up the object 
@@ -33,6 +41,9 @@ class Radar {
 
     /**
      * Updates the radar dataset
+     * 
+     * @param {Object} data The JSON data, containing 'angle' and 'distance' keys.
+     * @returns {void}
      */
     update(data) {
         let angle = data.angle || this.config.DEFAULT_ANGLE;
@@ -65,6 +76,8 @@ class Radar {
 
     /**
      * The animation loop
+     * 
+     * @returns {void}
      */
     animate() {
         this.draw();
@@ -73,6 +86,8 @@ class Radar {
 
     /**
      * Redraw the canvas
+     * 
+     * @returns {void}
      */
     draw() {
         this.clear();

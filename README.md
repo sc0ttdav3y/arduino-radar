@@ -40,7 +40,16 @@ The baud rate must match the same setting in the Arduino code.
     serial: {
         device: "/dev/cu.usbmodem1421",
         baud: 9600,
-    },
+    }
+}
+```
+
+To use mock data, set up your config like this:
+
+```
+{
+    port: 3000,
+    source: "mock"
 }
 ```
 

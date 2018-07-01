@@ -1,42 +1,58 @@
+/**
+ * Arduino Radar
+ * 
+ * See https://github.com/sc0ttdav3y/arduino-radar
+ * 
+ * This file contains the server-side application. It has two jobs:
+ * 
+ * 1. It relays the data received from the serial port onto connected 
+ *    websocket clients, and
+ * 2. It hosts the static website files.
+ * 
+ * It is written in Javascript ES6, so as of July 2018 must be run with 
+ * the --experimental-modules flag.
+ */
+
+// Import the required modules
 import express from "express";
 import expressWs from "express-ws";
 import path from 'path';
 
+// Import our config and data providers
 import config from "./config";
 import liveDataProvider from "./data/livedata";
 import mockDataProvider from "./data/mockdata";
 
-// Provide the '__dirname' constant, which is not available
-// when running ES6 with 'node --experimental-modules'
+// Set up the '__dirname' constant, which is normally available in node
+// but not when running ES6 with 'node --experimental-modules'.
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
-// Set up the app with a default route of '/' for GET and WS.
+// Set up the web server with a default route of '/' for GET and WS.
 const app = express();
-const wsApp = expressWs(app);
-
-// Register index.html
 app.get('/', (req, res) => {
     res.sendFile(__dirname + "/web/index.html")
 });
-
-// Regster radar.js 
 app.get('/radar.js', (req, res) => {
     res.sendFile(__dirname + "/web/radar.js", { headers: { "content-type": "text/javascript" }})
 });
 
-// Register the websocket endpoint
+// Now, set up web sockets and register the websocket endpoint, 
+// so web clients can connect and receive their data.
+const wsApp = expressWs(app);
 app.ws('/', (ws, req) => {});
 const wss = wsApp.getWss('/');
 
 // Start the appropriate data provider
-if (config.source === "live") {
+const source = config.source || "mock";
+if (source === "live") {
     liveDataProvider.start(wss, config);
 } else {
     mockDataProvider.start(wss, config);
 }
 
-// Fire up the web server
+// Finally, fire up the server. 
+const port = config.port || 3000;
 app.listen(
     config.port, 
-    () => console.log(`The radar is available at http://localhost:${config.port}/ using ${config.source} data`)
+    () => console.log(`The radar is available at http://localhost:${port}/ using ${source} data`)
 );
